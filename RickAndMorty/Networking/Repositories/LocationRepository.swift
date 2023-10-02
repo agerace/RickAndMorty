@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct LocationsListResult: Decodable {
-    let results: [Location]
-    let info: ResultInfo
-}
-
 struct LocationRepository {
     let manager = NetworkManager()
     private let locationResource = "location/"
@@ -26,7 +21,7 @@ struct LocationRepository {
         case .failure(let error):
             return .failure(error)
         case .success(let data):
-            guard let locationListResult = try? JSONDecoder().decode(LocationsListResult.self, from: data) else {
+            guard let locationListResult = try? JSONDecoder().decode(ListResult<Location>.self, from: data) else {
                 return .failure(.genericError)
             }
             return .success(locationListResult.results)

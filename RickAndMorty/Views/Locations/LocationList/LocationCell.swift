@@ -40,7 +40,7 @@ struct LocationCell: View {
 }
 
 struct LocationCell_Previews: PreviewProvider {
-    static let location = Location()
+    static let location = Location(name:"Sample location", dimension: "Sample dimension")
     static var previews: some View {
         LocationCell(location: location)
     }

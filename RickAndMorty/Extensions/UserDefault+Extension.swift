@@ -8,12 +8,20 @@
 import Foundation
 
 extension UserDefaults  {
-    var favoriteIds: [Int] {
+    var favoriteCharactersIds: [Int] {
         get {
-            array(forKey: "favoriteIds") as? [Int] ?? []
+            array(forKey: "favoriteCharactersIds") as? [Int] ?? []
         }
         set {
-            set(newValue, forKey: "favoriteIds")
+            set(newValue, forKey: "favoriteCharactersIds")
+        }
+    }
+    var favoriteEpisodesIds: [Int] {
+        get {
+            array(forKey: "favoriteEpisodesIds") as? [Int] ?? []
+        }
+        set {
+            set(newValue, forKey: "favoriteEpisodesIds")
         }
     }
 }

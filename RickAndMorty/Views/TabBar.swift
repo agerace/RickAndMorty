@@ -19,6 +19,11 @@ struct TabBar: View {
                 Image(systemName: "network")
                 Text("Locations")
             }
+            
+            EpisodesListView().tabItem {
+                Image(systemName: "text.book.closed.fill")
+                Text("Episodes")
+            }
         }
     }
 }
