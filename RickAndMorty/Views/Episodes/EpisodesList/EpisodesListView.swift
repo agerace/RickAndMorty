@@ -20,11 +20,13 @@ struct EpisodesListView: View {
     var body: some View {
         
         NavigationView() {
+            let favoritesBinding = Binding(get: { favoriteEpisodeIds }, set: { newFavoriteIds in
+                UserDefaults.standard.favoriteEpisodesIds = newFavoriteIds
+                self.favoriteEpisodeIds = newFavoriteIds
+            })
+            
             List(episodes) { episode in
-                EpisodeCell(episode: episode, favoriteEpisodesIds: Binding(get: { favoriteEpisodeIds }, set: { newFavoriteIds in
-                    UserDefaults.standard.favoriteEpisodesIds = newFavoriteIds
-                    self.favoriteEpisodeIds = newFavoriteIds
-                }))
+                EpisodeCell(episode: episode, favoriteEpisodesIds: favoritesBinding)
                 .listRowSeparator(.hidden)
                 .onAppear(){
                     if hasMoreEpisodes && episode == episodes[episodes.count - 3] {
