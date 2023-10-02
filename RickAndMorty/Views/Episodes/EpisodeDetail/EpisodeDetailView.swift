@@ -59,8 +59,10 @@ struct EpisodeDetailView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
+                    let favoriteEpisodeId = episode?.id ?? episodeId
+                    guard let episodeId = favoriteEpisodeId else { return }
                     if isFavorite {
-                        favoriteEpisodesIds = favoriteEpisodesIds.filter{$0 != episode!.id}
+                        favoriteEpisodesIds = favoriteEpisodesIds.filter{$0 != episodeId}
                     }else {
                         favoriteEpisodesIds = favoriteEpisodesIds + [episode!.id]
                     }
