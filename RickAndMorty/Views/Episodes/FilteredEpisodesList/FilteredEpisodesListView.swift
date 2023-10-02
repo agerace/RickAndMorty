@@ -35,7 +35,7 @@ struct FilteredEpisodesListView: View {
                             if hasMoreEpisodes && episode == episodes[episodes.count - 3] {
                                 page += 1
                                 Task {
-                                    await loadEpisodes(page: page)
+                                    await loadEpisodes(page: page, filters: filters)
                                 }
                             }
                         }
