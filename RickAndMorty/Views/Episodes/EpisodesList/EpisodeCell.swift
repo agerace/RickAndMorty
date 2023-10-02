@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CachedAsyncImage
 
 struct EpisodeCell: View {
     private var isFavorite: Bool {
