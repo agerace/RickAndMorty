@@ -61,7 +61,7 @@ struct FilteredEpisodesListView: View {
                     page = 1
                     episodes = []
                     Task {
-                        await loadEpisodes(page: page)
+                        await loadEpisodes(page: page, filters: filters)
                     }
                 }
         }
@@ -70,7 +70,7 @@ struct FilteredEpisodesListView: View {
         .navigationTitle("Filtered episodes")
     }
     
-    private func loadEpisodes(page: Int = 1) async {
+    private func loadEpisodes(page: Int = 1, filters: EpisodeFilters) async {
         let result = await EpisodesRepository().getFilteredEpisodes(page: page, filters: filters)
         switch result {
         case .success(let newEpisodios):
