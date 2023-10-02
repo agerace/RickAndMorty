@@ -21,13 +21,9 @@ struct EpisodeDetailView: View {
     
     private var isFavorite: Bool {
         get {
-            if let episode = episode {
-                return favoriteEpisodesIds.contains(episode.id)
-            }else if let episodeId = episodeId {
-                return favoriteEpisodesIds.contains(episodeId)
-            }else {
-                return false
-            }
+            let favoriteEpisodeId = episode?.id ?? episodeId
+            guard let episodeId = favoriteEpisodeId else { return false }
+            return favoriteEpisodesIds.contains(episodeId)
         }
     }
     
