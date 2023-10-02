@@ -21,10 +21,11 @@ struct CharactersListView: View {
         
         NavigationView() {
             List(characters) { character in
-                CharacterCell(character: character, favoriteIds: Binding(get: { favoriteIds }, set: { newFavoriteIds in
+                let favoritesBinding = Binding(get: { favoriteIds }, set: { newFavoriteIds in
                     UserDefaults.standard.favoriteCharactersIds = newFavoriteIds
                     self.favoriteIds = newFavoriteIds
-                }))
+                })
+                CharacterCell(character: character, favoriteIds: favoritesBinding)
                 .listRowSeparator(.hidden)
                 .onAppear(){
                     if hasMoreCharacters && character == characters[characters.count - 3] {

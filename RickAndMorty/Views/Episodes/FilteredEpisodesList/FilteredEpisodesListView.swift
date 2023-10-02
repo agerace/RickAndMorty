@@ -24,12 +24,12 @@ struct FilteredEpisodesListView: View {
                 ErrorView(errorMessage: RMError.emptyListError.rawValue)
             } else {
                 List(episodes) { episode in
-                    let favoriteBinding = Binding(get: { favoriteEpisodesIds }, set: { newFavoriteIds in
+                    let favoritesBinding = Binding(get: { favoriteEpisodesIds }, set: { newFavoriteIds in
                         UserDefaults.standard.favoriteEpisodesIds = newFavoriteIds
                         self.favoriteEpisodesIds = newFavoriteIds
                     })
                     
-                    EpisodeCell(episode: episode, favoriteEpisodesIds: favoriteBinding)
+                    EpisodeCell(episode: episode, favoriteEpisodesIds: favoritesBinding)
                     .listRowSeparator(.hidden)
                         .onAppear(){
                             if hasMoreEpisodes && episode == episodes[episodes.count - 3] {
