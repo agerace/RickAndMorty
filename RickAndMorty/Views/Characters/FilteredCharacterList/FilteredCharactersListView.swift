@@ -25,7 +25,7 @@ struct FilteredCharactersListView: View {
             } else {
                 List(characters) { character in
                     let favoriteBinding = Binding(get: { favoriteIds }, set: { newFavoriteIds in
-                        UserDefaults.standard.favoriteIds = newFavoriteIds
+                        UserDefaults.standard.favoriteCharactersIds = newFavoriteIds
                         self.favoriteIds = newFavoriteIds
                     })
                     CharacterCell(character: character, favoriteIds: favoriteBinding)

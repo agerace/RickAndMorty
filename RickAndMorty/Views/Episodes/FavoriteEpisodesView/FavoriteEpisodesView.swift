@@ -1,28 +1,28 @@
 //
-//  FavoriteCharactersView.swift
+//  FavoriteEpisodesView.swift
 //  RickAndMorty
 //
-//  Created by César Gerace on 29/09/2023.
+//  Created by César Gerace on 02/10/2023.
 //
 
 import SwiftUI
 
-struct FavoriteCharactersView: View {
-    @Binding var favoriteIds: [Int]
+struct FavoriteEpisodesView: View {
+    @Binding var favoriteEpisodesIds: [Int]
     
     @State var errorMessage: String? = nil
     @State var initialLoading = true
     
-    @State var characters = [Character]()
+    @State var episodes = [Episode]()
     
     var body: some View {
         
-        List(characters) { character in
-            let favoriteBinding = Binding(get: { favoriteIds }, set: { newFavoriteIds in
-                UserDefaults.standard.favoriteCharactersIds = newFavoriteIds
-                self.favoriteIds = newFavoriteIds
+        List(episodes) { episode in
+            let favoriteBinding = Binding(get: { favoriteEpisodesIds }, set: { newFavoriteIds in
+                UserDefaults.standard.favoriteEpisodesIds = newFavoriteIds
+                self.favoriteEpisodesIds = newFavoriteIds
             })
-            CharacterCell(character: character, favoriteIds: favoriteBinding)
+            EpisodeCell(episode: episode, favoriteEpisodesIds: favoriteBinding)
             .listRowSeparator(.hidden)
         }
         .background(.black)
@@ -42,19 +42,19 @@ struct FavoriteCharactersView: View {
         .navigationTitle("Favorites")
         .onAppear{
             Task {
-                await loadFavoriteCharacters()
+                await loadFavoriteEpisodes()
             }
         }
         
     }
     
-    private func loadFavoriteCharacters() async {
-        let result = await CharacterRepository().getCharacters(ids: favoriteIds)
+    private func loadFavoriteEpisodes() async {
+        let result = await EpisodesRepository().getEpisodes(ids: favoriteEpisodesIds)
         switch result {
-        case .success(let newCharacters):
+        case .success(let newEpisodes):
             initialLoading = false
-            characters = newCharacters
-            if newCharacters.isEmpty {
+            episodes = newEpisodes
+            if newEpisodes.isEmpty {
                 self.errorMessage = RMError.emptyListError.rawValue
             }
         case .failure(let error):
@@ -64,9 +64,9 @@ struct FavoriteCharactersView: View {
 }
 
 
-struct FavoriteCharactersView_Previews: PreviewProvider {
+struct FavoriteEpisodesView_Previews: PreviewProvider {
     @State static private var favoriteIds = [1,2,3]
     static var previews: some View {
-        FavoriteCharactersView(favoriteIds: $favoriteIds)
+        FavoriteEpisodesView(favoriteEpisodesIds: $favoriteIds)
     }
 }

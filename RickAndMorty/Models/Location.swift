@@ -15,7 +15,7 @@ struct Location: Decodable, Identifiable {
     let residents: [String]
     var residentsIds: [Int] {
         residents.compactMap{
-            Int($0.split(separator: "/").last!)
+            $0.getIdFromUrl()
         }
     }
     let url: String
@@ -31,13 +31,15 @@ struct Location: Decodable, Identifiable {
 }
 
 extension Location: Equatable {
-    
+    static func == (lhs: Location, rhs: Location) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 struct ShortLocation: Decodable {
     let name: String
     let url: String
     var id: Int? {
-        Int(url.split(separator: "/").last ?? "-1")
+        url.getIdFromUrl()
     }
 }

@@ -20,7 +20,7 @@ struct CharacterCell: View {
     
     var body: some View {
         let favoritesBinding = Binding(get: { favoriteIds }, set: {  newFavoriteIds in
-            UserDefaults.standard.favoriteIds = newFavoriteIds
+            UserDefaults.standard.favoriteCharactersIds = newFavoriteIds
             self.favoriteIds = newFavoriteIds
         })
         NavigationLink(destination: CharacterDetailView(character: character, favoriteIds: favoritesBinding)){

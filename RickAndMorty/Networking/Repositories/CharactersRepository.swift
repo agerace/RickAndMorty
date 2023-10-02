@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct CharactersListResult: Decodable {
-    let results: [Character]
-    let info: ResultInfo
-}
-
 struct CharacterRepository {
     
     private let characterResource = "character/"
@@ -26,7 +21,7 @@ struct CharacterRepository {
         case .failure(let error):
             return .failure(error)
         case .success(let data):
-            guard let charactersListResult = try? JSONDecoder().decode(CharactersListResult.self, from: data) else {
+            guard let charactersListResult = try? JSONDecoder().decode(ListResult<Character>.self, from: data) else {
                 return .failure(.genericError)
             }
             return .success(charactersListResult.results)
@@ -74,7 +69,7 @@ struct CharacterRepository {
         case .failure(let error):
             return .failure(error)
         case .success(let data):
-            guard let charactersListResult = try? JSONDecoder().decode(CharactersListResult.self, from: data) else {
+            guard let charactersListResult = try? JSONDecoder().decode(ListResult<Character>.self, from: data) else {
                 return .failure(.genericError)
             }
             return .success(charactersListResult.results)

@@ -1,37 +1,38 @@
 //
-//  ContentView.swift
+//  EpisodesListView.swift
 //  RickAndMortyApp
 //
-//  Created by César Gerace on 25/09/2023.
+//  Created by César Gerace on 02/10/2023.
 //
 
 import SwiftUI
 
-struct CharactersListView: View {
-    @State var favoriteIds: [Int] = UserDefaults.standard.favoriteCharactersIds
+struct EpisodesListView: View {
+    @State var favoriteEpisodeIds: [Int] = UserDefaults.standard.favoriteEpisodesIds
     
     @State var errorMessage: String? = nil
     @State var initialLoading = true
-    @State var hasMoreCharacters = true
+    @State var hasMoreEpisodes = true
     
-    @State var characters = [Character]()
+    @State var episodes = [Episode]()
     @State var page = 1
     
     var body: some View {
         
         NavigationView() {
-            List(characters) { character in
-                let favoritesBinding = Binding(get: { favoriteIds }, set: { newFavoriteIds in
-                    UserDefaults.standard.favoriteCharactersIds = newFavoriteIds
-                    self.favoriteIds = newFavoriteIds
-                })
-                CharacterCell(character: character, favoriteIds: favoritesBinding)
+            let favoritesBinding = Binding(get: { favoriteEpisodeIds }, set: { newFavoriteIds in
+                UserDefaults.standard.favoriteEpisodesIds = newFavoriteIds
+                self.favoriteEpisodeIds = newFavoriteIds
+            })
+            
+            List(episodes) { episode in
+                EpisodeCell(episode: episode, favoriteEpisodesIds: favoritesBinding)
                 .listRowSeparator(.hidden)
                 .onAppear(){
-                    if hasMoreCharacters && character == characters[characters.count - 3] {
+                    if hasMoreEpisodes && episode == episodes[episodes.count - 3] {
                         page += 1
                         Task {
-                            await loadCharacters(page: page)
+                            await loadEpisodes(page: page)
                         }
                     }
                 }
@@ -42,12 +43,12 @@ struct CharactersListView: View {
             .padding(.zero)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: FilteredCharactersListView(favoriteIds: $favoriteIds)){
+                    NavigationLink(destination: FilteredEpisodesListView(favoriteEpisodesIds: $favoriteEpisodeIds)){
                         Image(systemName: "magnifyingglass").foregroundColor(.mainGreen)
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: FavoriteCharactersView(favoriteIds: $favoriteIds)){
+                    NavigationLink(destination: FavoriteEpisodesView(favoriteEpisodesIds: $favoriteEpisodeIds)){
                         Image(systemName: "heart.fill").foregroundColor(.mainGreen)
                     }
                 }
@@ -71,27 +72,27 @@ struct CharactersListView: View {
         .foregroundColor(.mainBlue)
         .onAppear{
             Task {
-                await loadCharacters()
+                await loadEpisodes()
             }
         }
         
     }
     
-    private func loadCharacters(page: Int = 1) async {
-        let result = await CharacterRepository().getCharacters(page: page)
+    private func loadEpisodes(page: Int = 1) async {
+        let result = await EpisodesRepository().getEpisodes(page: page)
         switch result {
-        case .success(let newCharacters):
+        case .success(let newEpisodes):
             initialLoading = false
-            hasMoreCharacters = newCharacters.count >= 20
-            characters.append(contentsOf: newCharacters)
+            hasMoreEpisodes = newEpisodes.count >= 20
+            episodes.append(contentsOf: newEpisodes)
         case .failure(let error):
             self.errorMessage = error.localizedDescription
         }
     }
 }
 
-struct CharactersListView_Previews: PreviewProvider {
+struct EpisodesListView_Previews: PreviewProvider {
     static var previews: some View {
-        CharactersListView()
+        EpisodesListView()
     }
 }
