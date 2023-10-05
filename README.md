@@ -11,6 +11,6 @@ A rick and morty's show wiki app.
 
 - Maybe make some protocols for the repositories to avoid having so much duplicated code, maybe using some generics for the results?
 - Reuse code for the views since they are basically doing the same thing. Review how the view protocol can be implemented in such way all the list views can be implemented just once, also maybe using generics?
-- Will need some way to create and show each of the different models if everything is changed by generics. 
+- Will need some way to create and show each of the different models if everything is changed by generics. (Check closer the combine library or try to implement a more **MVVM** architecture.)
 
 **Probably will be commiting some of these changes soon.**
